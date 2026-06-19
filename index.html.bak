@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday Miftahun Jannat 💖</title>
+
+  <style>
+    /* ─── Google Fonts ────────────────────────────────────────────── */
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500&family=Dancing+Script:wght@500;700&display=swap');
+
+    /* ─── CSS Variables ───────────────────────────────────────────── */
+    :root {
+      --bg:        #0d0a1e;
+      --bg2:       #130d2b;
+      --rose:      #f4a7b9;
+      --rose-deep: #e879a0;
+      --lavender:  #c084fc;
+      --lav-deep:  #9333ea;
+      --gold:      #fde68a;
+      --white:     #fdf4ff;
+      --glass-bg:  rgba(255,255,255,0.06);
+      --glass-border: rgba(255,255,255,0.12);
+      --shadow:    0 8px 60px rgba(232,121,160,0.18);
+    }
+
+    /* ─── Reset ───────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--white);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ─── Animated gradient background ───────────────────────────── */
+    .bg-layer {
+      position: fixed; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(192,132,252,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 80%, rgba(244,167,185,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 50% 50%, rgba(19,13,43,1) 0%, rgba(13,10,30,1) 100%);
+      animation: bgShift 12s ease-in-out infinite alternate;
+    }
+    @keyframes bgShift {
+      0%   { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(20deg); }
+    }
+
+    /* ─── Particles canvas ────────────────────────────────────────── */
+    #particleCanvas {
+      position: fixed; inset: 0; z-index: 1;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 1.5s ease;
+    }
+    #particleCanvas.visible { opacity: 1; }
+
+    /* ─── Floating hearts layer ───────────────────────────────────── */
+    #heartsLayer {
+      position: fixed; inset: 0; z-index: 2;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .float-heart {
+      position: absolute;
+      bottom: -60px;
+      font-size: 1.4rem;
+      animation: floatUp linear infinite;
+      opacity: 0;
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(0) rotate(0deg) scale(0.6); opacity: 0; }
+      10%  { opacity: 0.8; }
+      90%  { opacity: 0.5; }
+      100% { transform: translateY(-110vh) rotate(25deg) scale(1.1); opacity: 0; }
+    }
+
+    /* ─── Page wrapper ────────────────────────────────────────────── */
+    .page { position: relative; z-index: 10; }
+
+    /* ══════════════════════════════════════════════════════════════ */
+    /*  LANDING SCREEN                                                */
+    /* ══════════════════════════════════════════════════════════════ */
+    #landing {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      transition: opacity 1s ease, transform 1s ease;
+    }
+    #landing.hide {
+      opacity: 0;
+      transform: scale(0.96);
+      pointer-events: none;
+    }
+
+    /* film-grain overlay — our cinematic signature */
+    #landing::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 1; opacity: 0.5;
+    }
+
+    .landing-eyebrow {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(1rem, 3vw, 1.35rem);
+      color: var(--gold);
+      letter-spacing: 0.05em;
+      margin-bottom: 1.2rem;
+      opacity: 0;
+      animation: fadeSlideDown 1s 0.4s forwards;
+    }
+
+    .landing-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 7vw, 4.8rem);
+      font-weight: 900;
+      line-height: 1.12;
+      background: linear-gradient(135deg, var(--rose) 0%, var(--lavender) 50%, var(--gold) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: fadeSlideDown 1s 0.7s forwards;
+    }
+
+    .landing-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+      color: rgba(253,244,255,0.65);
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      margin-bottom: 2.8rem;
+      opacity: 0;
+      animation: fadeSlideDown 1s 1s forwards;
+    }
+
+    .landing-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.9rem 2.4rem;
+      background: linear-gradient(135deg, var(--rose-deep), var(--lav-deep));
+      border: none;
+      border-radius: 60px;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: 0 0 40px rgba(232,121,160,0.4), 0 0 80px rgba(147,51,234,0.2);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      opacity: 0;
+      animation: fadeSlideDown 1s 1.3s forwards;
+      position: relative;
+      overflow: hidden;
+    }
+    .landing-btn::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.18), transparent);
+      border-radius: inherit;
+    }
+    .landing-btn:hover {
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 0 60px rgba(232,121,160,0.6), 0 0 100px rgba(147,51,234,0.3);
+    }
+    .landing-btn:active { transform: scale(0.97); }
+
+    /* heartbeat on icon */
+    .hb-icon {
+      display: inline-block;
+      animation: heartbeat 1.4s ease-in-out infinite;
+    }
+    @keyframes heartbeat {
+      0%,100% { transform: scale(1); }
+      14%      { transform: scale(1.3); }
+      28%      { transform: scale(1); }
+      42%      { transform: scale(1.2); }
+    }
+
+    @keyframes fadeSlideDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ══════════════════════════════════════════════════════════════ */
+    /*  MAIN SURPRISE CONTENT                                         */
+    /* ══════════════════════════════════════════════════════════════ */
+    #surpriseContent {
+      display: none;
+      padding: 2rem 1rem 6rem;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    #surpriseContent.visible { display: block; }
+
+    /* ─── Section entrance animation ────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    .reveal.in-view { opacity: 1; transform: translateY(0); }
+
+    /* ─── Section spacing ────────────────────────────────────────── */
+    .s-gap { margin-bottom: 5rem; }
+
+    /* ─── Glass card ─────────────────────────────────────────────── */
+    .glass {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 2.4rem 2rem;
+      box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+
+    /* ─── Section label ──────────────────────────────────────────── */
+    .s-label {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1rem;
+      color: var(--gold);
+      letter-spacing: 0.08em;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .s-label::before, .s-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(253,230,138,0.3), transparent);
+    }
+
+    /* ─── Main card ──────────────────────────────────────────────── */
+    .main-card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.7rem, 5vw, 2.8rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--rose), var(--lavender));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-align: center;
+      margin-bottom: 1.8rem;
+      line-height: 1.25;
+    }
+
+    /* ─── Typing animation ───────────────────────────────────────── */
+    #typedMessage {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(0.95rem, 2.2vw, 1.08rem);
+      line-height: 2;
+      color: rgba(253,244,255,0.85);
+      font-weight: 300;
+      white-space: pre-line;
+      min-height: 3em;
+    }
+    .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.1em;
+      background: var(--rose);
+      margin-left: 2px;
+      vertical-align: middle;
+      animation: blink 0.7s step-start infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* ─── Special say section ────────────────────────────────────── */
+    .special-quote {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1.1rem, 3vw, 1.5rem);
+      line-height: 1.7;
+      text-align: center;
+      color: var(--white);
+    }
+    .special-quote em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--rose), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ─── Photo gallery ──────────────────────────────────────────── */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.8rem;
+      padding: 0.5rem;
+    }
+
+    .polaroid {
+      background: rgba(255,255,255,0.95);
+      border-radius: 4px;
+      padding: 12px 12px 44px;
+      box-shadow:
+        0 4px 24px rgba(0,0,0,0.35),
+        0 0 40px rgba(244,167,185,0.2);
+      transform: rotate(-2deg);
+      transition: transform 0.4s cubic-bezier(.22,.68,0,.99), box-shadow 0.4s ease;
+      cursor: pointer;
+    }
+    .polaroid:nth-child(2) { transform: rotate(1.5deg); }
+    .polaroid:nth-child(3) { transform: rotate(-1deg); }
+
+    .polaroid:hover {
+      transform: rotate(0deg) scale(1.06) !important;
+      box-shadow:
+        0 16px 60px rgba(0,0,0,0.45),
+        0 0 60px rgba(192,132,252,0.35);
+      z-index: 10;
+    }
+
+    .polaroid img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      display: block;
+      border-radius: 2px;
+      filter: saturate(1.1) contrast(1.02);
+    }
+
+    .polaroid-caption {
+      text-align: center;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1rem;
+      color: #1a1a2e;
+      margin-top: 10px;
+      opacity: 0.75;
+    }
+
+    /* ─── Final screen ───────────────────────────────────────────── */
+    .final-screen {
+      text-align: center;
+      padding: 3rem 1rem;
+    }
+
+    .final-big {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 6vw, 3.8rem);
+      font-weight: 900;
+      line-height: 1.2;
+      background: linear-gradient(135deg, var(--rose), var(--lavender), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1.2rem;
+    }
+
+    .final-sub {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(1.2rem, 3.5vw, 1.7rem);
+      color: rgba(253,244,255,0.75);
+    }
+
+    .final-hearts {
+      font-size: 2rem;
+      letter-spacing: 0.3em;
+      margin-top: 1.5rem;
+      animation: heartbeat 1.4s ease-in-out infinite;
+      display: block;
+    }
+
+    /* ─── Music control ──────────────────────────────────────────── */
+    #musicBtn {
+      position: fixed;
+      bottom: 1.8rem;
+      right: 1.8rem;
+      z-index: 100;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      border: none;
+      background: linear-gradient(135deg, var(--rose-deep), var(--lav-deep));
+      color: #fff;
+      font-size: 1.3rem;
+      cursor: pointer;
+      box-shadow: 0 0 30px rgba(232,121,160,0.5), 0 0 60px rgba(147,51,234,0.25);
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      display: none; /* shown after click */
+    }
+    #musicBtn.show { display: flex; }
+    #musicBtn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 50px rgba(232,121,160,0.7), 0 0 80px rgba(147,51,234,0.4);
+    }
+    #musicBtn .ripple-ring {
+      position: absolute;
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      border: 2px solid rgba(244,167,185,0.5);
+      animation: rippleRing 2s linear infinite;
+    }
+    #musicBtn .ripple-ring:nth-child(2) { animation-delay: 0.7s; }
+    @keyframes rippleRing {
+      0%   { transform: scale(1); opacity: 0.7; }
+      100% { transform: scale(1.9); opacity: 0; }
+    }
+
+    /* ─── Divider ────────────────────────────────────────────────── */
+    .divider {
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--rose), var(--lavender));
+      margin: 1.2rem auto;
+      border-radius: 2px;
+    }
+
+    /* ─── Age badge ──────────────────────────────────────────────── */
+    .age-badge {
+      display: inline-block;
+      padding: 0.3rem 1.1rem;
+      border-radius: 40px;
+      border: 1px solid rgba(244,167,185,0.35);
+      background: rgba(244,167,185,0.08);
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.05rem;
+      color: var(--rose);
+      margin-bottom: 1rem;
+    }
+
+    /* ─── Confetti canvas ────────────────────────────────────────── */
+    #confettiCanvas {
+      position: fixed; inset: 0; z-index: 200;
+      pointer-events: none;
+    }
+
+    /* ─── Responsive ─────────────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .glass { padding: 1.6rem 1.2rem; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+    }
+    @media (max-width: 380px) {
+      .gallery-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ─── Prefers reduced motion ─────────────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ░░░ FIXED LAYERS ░░░ -->
+<div class="bg-layer"></div>
+<canvas id="particleCanvas"></canvas>
+<canvas id="confettiCanvas"></canvas>
+<div id="heartsLayer"></div>
+
+<!-- ░░░ AUDIO ░░░ -->
+<audio id="bgMusic" loop preload="auto">
+  <source src="song.mp3" type="audio/mpeg" />
+</audio>
+
+<!-- ░░░ MUSIC BUTTON ░░░ -->
+<button id="musicBtn" aria-label="Toggle music">
+  <span class="ripple-ring"></span>
+  <span class="ripple-ring"></span>
+  <span id="musicIcon">🎵</span>
+</button>
+
+<!-- ░░░ PAGE ░░░ -->
+<div class="page">
+
+  <!-- ══ LANDING ══ -->
+  <section id="landing">
+    <p class="landing-eyebrow">✦ a little surprise, just for you ✦</p>
+
+    <h1 class="landing-title">
+      Happy Birthday<br />
+      Miftahun Jannat
+    </h1>
+
+    <p class="landing-subtitle">A small surprise made with feelings…</p>
+
+    <button class="landing-btn" id="openBtn">
+      Open Your Surprise
+      <span class="hb-icon">💖</span>
+    </button>
+  </section>
+
+  <!-- ══ SURPRISE CONTENT ══ -->
+  <div id="surpriseContent">
+
+    <!-- ── Birthday Card ── -->
+    <div class="s-gap reveal">
+      <p class="s-label">✦ for you ✦</p>
+      <div class="glass" style="text-align:center;">
+        <span class="age-badge">30 July 2011 · Turning 15 ✨</span>
+        <h2 class="main-card-title">Happy Birthday<br/>Miftahun Jannat ❤️</h2>
+        <div class="divider"></div>
+        <div id="typedMessage"><span class="cursor"></span></div>
+      </div>
+    </div>
+
+    <!-- ── Something I Want To Say ── -->
+    <div class="s-gap reveal">
+      <p class="s-label">✦ something I want to say ✦</p>
+      <div class="glass" style="text-align:center; padding: 3rem 2rem;">
+        <p class="special-quote">
+          "I don't know how it happened, but I started<br/>
+          caring about you <em>more than I expected</em>.<br/><br/>
+          Not for anything…<br/>
+          just because <em>you are you</em>."
+        </p>
+      </div>
+    </div>
+
+    <!-- ── Photo Gallery ── -->
+    <div class="s-gap reveal">
+      <p class="s-label">✦ moments ✦</p>
+      <div class="gallery-grid">
+        <div class="polaroid">
+          <img src="photo1.jpg" alt="Memory 1" onerror="this.src='data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'300\' height=\'300\'><rect fill=\'%23c084fc22\' width=\'100%25\' height=\'100%25\'/><text x=\'50%25\' y=\'50%25\' font-family=\'serif\' font-size=\'48\' fill=\'%23c084fc\' text-anchor=\'middle\' dy=\'.3em\'>🌸</text></svg>'" />
+          <p class="polaroid-caption">precious ♡</p>
+        </div>
+        <div class="polaroid">
+          <img src="photo2.jpg" alt="Memory 2" onerror="this.src='data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'300\' height=\'300\'><rect fill=\'%23f4a7b922\' width=\'100%25\' height=\'100%25\'/><text x=\'50%25\' y=\'50%25\' font-family=\'serif\' font-size=\'48\' fill=\'%23f4a7b9\' text-anchor=\'middle\' dy=\'.3em\'>🌷</text></svg>'" />
+          <p class="polaroid-caption">always ♡</p>
+        </div>
+        <div class="polaroid">
+          <img src="photo3.jpg" alt="Memory 3" onerror="this.src='data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'300\' height=\'300\'><rect fill=\'%23fde68a22\' width=\'100%25\' height=\'100%25\'/><text x=\'50%25\' y=\'50%25\' font-family=\'serif\' font-size=\'48\' fill=\'%23fde68a\' text-anchor=\'middle\' dy=\'.3em\'>🌟</text></svg>'" />
+          <p class="polaroid-caption">forever ♡</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Final Screen ── -->
+    <div class="s-gap reveal final-screen glass">
+      <p class="final-big">You are special…<br/>always ❤️</p>
+      <p class="final-sub">
+        "I really love you…<br/>and I just want you to be happy forever."
+      </p>
+      <span class="final-hearts">❤️ 🌸 ❤️</span>
+    </div>
+
+  </div><!-- /surpriseContent -->
+</div><!-- /page -->
+
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   BIRTHDAY SURPRISE — VANILLA JS
+═══════════════════════════════════════════════════════════════════ */
+
+/* ── Helpers ──────────────────────────────────────────────────── */
+const $ = id => document.getElementById(id);
+const raf = requestAnimationFrame;
+
+/* ── Elements ─────────────────────────────────────────────────── */
+const openBtn       = $('openBtn');
+const landing       = $('landing');
+const surpriseDiv   = $('surpriseContent');
+const bgMusic       = $('bgMusic');
+const musicBtn      = $('musicBtn');
+const musicIcon     = $('musicIcon');
+const particleCanvas= $('particleCanvas');
+const confettiCanvas= $('confettiCanvas');
+const heartsLayer   = $('heartsLayer');
+const typedMsg      = $('typedMessage');
+
+/* ── Birthday message ─────────────────────────────────────────── */
+const BIRTHDAY_TEXT = `You are someone very special to me.\n\nEven though we mostly talk online and never met properly in real life,\nyou still became very important in my life.\n\nI truly admire your kindness and the way you are as a person.\nSlowly, you became someone I genuinely care about a lot.\n\nI just want you to be happy always,\nsmile always, and stay blessed forever ❤️`;
+
+/* ══════════════════════════════════════════════════════════════
+   OPEN BUTTON CLICK
+══════════════════════════════════════════════════════════════ */
+openBtn.addEventListener('click', () => {
+  /* 1. Fade out landing */
+  landing.classList.add('hide');
+
+  /* 2. Music */
+  bgMusic.volume = 0;
+  bgMusic.play().catch(() => {});
+  fadeInAudio();
+
+  /* 3. Show music button */
+  setTimeout(() => musicBtn.classList.add('show'), 800);
+
+  /* 4. Show surprise content */
+  setTimeout(() => {
+    surpriseDiv.classList.add('visible');
+    particleCanvas.classList.add('visible');
+    startParticles();
+    startHearts();
+    startRevealObserver();
+
+    /* 5. Confetti */
+    setTimeout(launchConfetti, 400);
+
+    /* 6. Typing animation */
+    setTimeout(() => typeMessage(BIRTHDAY_TEXT), 900);
+  }, 900);
+});
+
+/* ── Fade in audio ────────────────────────────────────────────── */
+function fadeInAudio() {
+  let v = 0;
+  const step = () => {
+    if (v < 0.65) { v = Math.min(v + 0.01, 0.65); bgMusic.volume = v; raf(step); }
+  };
+  raf(step);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   MUSIC BUTTON
+══════════════════════════════════════════════════════════════ */
+musicBtn.addEventListener('click', () => {
+  if (bgMusic.paused) {
+    bgMusic.play();
+    musicIcon.textContent = '🎵';
+  } else {
+    bgMusic.pause();
+    musicIcon.textContent = '▶️';
+  }
+});
+
+/* ══════════════════════════════════════════════════════════════
+   TYPING ANIMATION
+══════════════════════════════════════════════════════════════ */
+function typeMessage(text) {
+  typedMsg.innerHTML = '<span class="cursor"></span>';
+  let i = 0;
+
+  function tick() {
+    if (i < text.length) {
+      const char = text[i++];
+      const cursor = typedMsg.querySelector('.cursor');
+      if (cursor) cursor.insertAdjacentText('beforebegin', char);
+      const delay = char === '\n' ? 60 : (Math.random() * 30 + 20);
+      setTimeout(tick, delay);
+    }
+  }
+  tick();
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PARTICLE SYSTEM (soft glowing orbs)
+══════════════════════════════════════════════════════════════ */
+function startParticles() {
+  const canvas = particleCanvas;
+  const ctx    = canvas.getContext('2d');
+  const particles = [];
+
+  const resize = () => {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  };
+  resize();
+  window.addEventListener('resize', resize);
+
+  /* spawn */
+  for (let i = 0; i < 55; i++) {
+    particles.push({
+      x:   Math.random() * window.innerWidth,
+      y:   Math.random() * window.innerHeight,
+      r:   Math.random() * 3 + 1,
+      vx:  (Math.random() - 0.5) * 0.35,
+      vy:  (Math.random() - 0.5) * 0.35,
+      hue: Math.random() * 60 + 290,  /* pink–purple range */
+      a:   Math.random() * 0.5 + 0.15
+    });
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = canvas.width;
+      if (p.x > canvas.width) p.x = 0;
+      if (p.y < 0) p.y = canvas.height;
+      if (p.y > canvas.height) p.y = 0;
+
+      const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 4);
+      g.addColorStop(0, `hsla(${p.hue},80%,75%,${p.a})`);
+      g.addColorStop(1, 'transparent');
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r * 4, 0, Math.PI * 2);
+      ctx.fillStyle = g;
+      ctx.fill();
+    });
+    raf(draw);
+  }
+  raf(draw);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   FLOATING HEARTS
+══════════════════════════════════════════════════════════════ */
+function startHearts() {
+  const emojis = ['❤️','🩷','💜','✨','🌸','💗','💖'];
+
+  function spawnHeart() {
+    const el = document.createElement('span');
+    el.className = 'float-heart';
+    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    el.style.left      = Math.random() * 100 + 'vw';
+    el.style.fontSize  = (Math.random() * 1.2 + 0.8) + 'rem';
+    const dur = Math.random() * 6 + 6;
+    el.style.animationDuration = dur + 's';
+    el.style.animationDelay    = '0s';
+    heartsLayer.appendChild(el);
+    setTimeout(() => el.remove(), dur * 1000 + 500);
+  }
+
+  spawnHeart(); /* immediate first */
+  setInterval(spawnHeart, 800);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   CONFETTI
+══════════════════════════════════════════════════════════════ */
+function launchConfetti() {
+  const canvas = confettiCanvas;
+  const ctx    = canvas.getContext('2d');
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const colors = ['#f4a7b9','#c084fc','#fde68a','#e879a0','#a78bfa','#fbcfe8','#fff'];
+  const pieces = [];
+
+  for (let i = 0; i < 160; i++) {
+    pieces.push({
+      x:   Math.random() * canvas.width,
+      y:   Math.random() * -200 - 20,
+      w:   Math.random() * 10 + 5,
+      h:   Math.random() * 6 + 3,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      vy: Math.random() * 4 + 2,
+      vx: (Math.random() - 0.5) * 2,
+      angle: Math.random() * Math.PI * 2,
+      spin:  (Math.random() - 0.5) * 0.15,
+      alpha: 1
+    });
+  }
+
+  let frame = 0;
+  function drawConfetti() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    let alive = false;
+    pieces.forEach(p => {
+      if (p.y < canvas.height + 20) { alive = true; }
+      p.y     += p.vy;
+      p.x     += p.vx;
+      p.angle += p.spin;
+      if (p.y > canvas.height * 0.7) p.alpha = Math.max(0, p.alpha - 0.012);
+
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.angle);
+      ctx.globalAlpha = p.alpha;
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      ctx.restore();
+    });
+    frame++;
+    if (alive && frame < 260) raf(drawConfetti);
+    else ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+  raf(drawConfetti);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SCROLL REVEAL (IntersectionObserver)
+══════════════════════════════════════════════════════════════ */
+function startRevealObserver() {
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in-view');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+}
+
+/* ── Immediate first reveal in view ──────────────────────────── */
+/* (runs once surpriseContent becomes visible in viewport)       */
+</script>
+</body>
+</html>
